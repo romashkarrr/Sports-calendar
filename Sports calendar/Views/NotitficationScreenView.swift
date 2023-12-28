@@ -24,35 +24,52 @@ struct NotitficationScreenView: View {
     @State var notificationScreen: Bool = false
     
     var body: some View {
-        VStack {
+        ZStack {
             VStack {
-                ZStack {
-                    Text("Notifications")
-                        .bold()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            notificationScreen.toggle()
-                        }, label: {
-                            Text("Done")
-                                .foregroundStyle(.green)
-                        })
+                VStack {
+                    ZStack {
+                        Text("Notifications")
+                            .bold()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                notificationScreen.toggle()
+                            }, label: {
+                                Text("Done")
+                                    .foregroundStyle(.green)
+                            })
+                        }
+                    }
+                    .padding()
+                    .fullScreenCover(isPresented: $notificationScreen, content: {
+                        MainScreenView()
+                    })
+                    Picker("fdghjk", selection: $selected) {
+                        ForEach(SegmentedPicker.allCases) { category in
+                            Text(category.tile).tag(category)
+                        }
                     }
                 }
-                .padding()
-                .fullScreenCover(isPresented: $notificationScreen, content: {
-                    MainScreenView()
-                })
-                Picker("fdghjk", selection: $selected) {
-                    ForEach(SegmentedPicker.allCases) { category in
-                        Text(category.tile).tag(category)
-                    }
-                }
+                .pickerStyle(.segmented)
+                Divider()
+                Spacer()
+                
             }
-            .pickerStyle(.segmented)
-            Divider()
-            Spacer()
-            
+            VStack {
+                Image("undraw_completed")
+                    .resizable()
+                    .frame(width: 218, height: 298)
+                Text("Stay in the loop")
+                    .font(.callout)
+                    .padding(.top)
+                Text("""
+                    Here, you’ll find notifications for any changes
+                           that happend in your shared projects.
+                    """)
+                    .font(.footnote)
+                    .frame(width: 299, height: 44)
+                    .foregroundColor(.gray)
+            }
         }
     }
 }
